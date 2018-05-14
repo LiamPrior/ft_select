@@ -6,7 +6,7 @@
 /*   By: lprior <lprior@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 16:23:02 by lprior            #+#    #+#             */
-/*   Updated: 2018/05/10 22:48:34 by lprior           ###   ########.fr       */
+/*   Updated: 2018/05/13 20:35:34 by lprior           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
 # include <sys/param.h>
 # include "libft/libft.h"
 
-# define REVERSE_VIDEO_COLOR    "\033[7m"
+# define REV_VIDEO              "\033[7m"
 # define UNDERLINED             "\033[4m"
-# define DEFAULT_COLOR          "\033[0m"
+# define DEFAULT               "\033[0m"
 # define ENTER_KEY                10
 # define ESC_KEY                27
 # define SPC_KEY                32
@@ -63,7 +63,22 @@ typedef struct  s_env
 
 }       t_env;
 
-void	ft_circle_link(t_nodes **nodes);
+t_nodes *ft_delete_node(t_nodes **nodes);
+void ft_circle_link(t_nodes **nodes);
 void ft_create_node(t_nodes **nodes, char *name);
+void ft_display_list(t_nodes **node);
+
+/*
+**ft_terminal.c
+*/
+
+struct termios ft_term(struct termios term, struct termios normal);
+
+/*
+**ft_error.c
+*/
+
+void ft_error(int i);
+int ft_key_check(long long *key, t_nodes ***nodes);
 
 #endif

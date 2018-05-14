@@ -6,11 +6,11 @@
 #    By: lprior <lprior@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/05/10 13:00:31 by lprior            #+#    #+#              #
-#    Updated: 2018/05/10 21:44:00 by lprior           ###   ########.fr        #
+#    Updated: 2018/05/13 19:03:10 by lprior           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = ft_select.c ft_nodes.c
+SRCS = ft_select.c ft_nodes.c ft_terminal.c ft_tools.c
 
 FLAGS = -lncurses
 

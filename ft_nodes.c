@@ -6,21 +6,53 @@
 /*   By: lprior <lprior@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/10 21:19:20 by lprior            #+#    #+#             */
-/*   Updated: 2018/05/10 22:57:08 by lprior           ###   ########.fr       */
+/*   Updated: 2018/05/13 17:34:40 by lprior           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void ft_delete_node(t_nodes *node)
+t_nodes *ft_delete_node(t_nodes **nodes)
 {
+    t_nodes *cur;
+    t_nodes *prev;
     t_nodes *temp;
 
-    temp = node;
-    temp->prev->next = temp->next;
-    temp->next->prev = temp->prev;
-    node = NULL;
-    free(node);
+    cur = *nodes;
+    prev = NULL;
+    temp = NULL;
+    while (!cur->current && (prev = cur))
+        cur = cur->next;
+    if (cur->next == *nodes && prev == NULL && !(*nodes = NULL))
+        free(cur);
+    else if (cur == *nodes)
+    {
+        prev = (*nodes)->prev;
+        *nodes = (*nodes)->next;
+        prev->next = *nodes;
+        (*nodes)->prev = prev;
+        (*nodes)->part = (*nodes)->next == (*nodes) ? 3 : 1;
+        (*nodes)->current = true;
+        free(cur);
+    }
+    else if (cur->next == (*nodes))
+    {
+        prev->next = *nodes;
+        (*nodes)->prev = prev;
+        prev->part = 3;
+        (*nodes)->current = true;
+        free(cur);
+    }
+    else
+    {
+        temp = cur->next;
+        prev->next = temp;
+        temp->prev = prev;
+        (temp)->current = true;
+        free(cur);
+        return (temp);
+    }
+    return (*nodes);
 }
 
 void ft_create_node(t_nodes **nodes, char *name)
@@ -39,7 +71,7 @@ void ft_create_node(t_nodes **nodes, char *name)
     if (*nodes == NULL && (temp->part = 1))
     {
         *nodes = temp;
-        nodes->current = true;
+        (*nodes)->current = true;
     }
     else
     {
