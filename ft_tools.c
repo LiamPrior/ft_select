@@ -6,11 +6,31 @@
 /*   By: lprior <lprior@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/13 18:58:31 by lprior            #+#    #+#             */
-/*   Updated: 2018/05/14 19:47:39 by lprior           ###   ########.fr       */
+/*   Updated: 2018/05/15 15:44:17 by lprior           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
+
+void ft_end(t_env *all)
+{
+    ft_reset_term(all);
+    exit(1);
+}
+
+void ft_select_init(t_nodes **nodes, t_env *all)
+{
+		all->i = 0;
+		*nodes = NULL;
+}
+
+void ft_reset_term(t_env *all)
+{
+    ft_putstr_fd(tgetstr("ve", 0), 1);
+    ft_putstr_fd(tgetstr("te", 0), 1);
+    if (tcsetattr(0, TCSANOW, &all->normal) == -1)
+		ft_error(0);
+}
 
 int ft_window_size(t_env *all)
 {
@@ -41,7 +61,7 @@ int ft_key_check(long long *key, t_nodes **nodes, t_nodes **temp)
 {
     (*temp)->current = false;
     if (*key == 27)
-        return (0);
+        return (-3);
     else if (*key == ENTER_KEY)
         ft_find_select(nodes);
     else if (*key == RIGHT_KEY || *key == DOWN_KEY)//right key;

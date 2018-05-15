@@ -6,7 +6,7 @@
 /*   By: lprior <lprior@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 16:23:02 by lprior            #+#    #+#             */
-/*   Updated: 2018/05/14 19:53:07 by lprior           ###   ########.fr       */
+/*   Updated: 2018/05/15 15:10:35 by lprior           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct      s_nodes
 typedef struct  s_env
 {
     int i;
+    struct termios normal;
     double w_win;
     double h_win;
 
@@ -69,7 +70,7 @@ t_nodes *ft_delete_node(t_nodes **nodes);
 void ft_circle_link(t_nodes **nodes);
 void ft_create_node(t_nodes **nodes, char *name);
 void ft_display_list(t_env *all, t_nodes **node);
-
+void ft_signal();
 /*
 **ft_terminal.c
 */
@@ -84,5 +85,7 @@ void ft_error(int i);
 int ft_key_check(long long *key, t_nodes **nodes, t_nodes **temp);
 void ft_find_select(t_nodes **nodes);
 int ft_window_size(t_env *all);
-
+void ft_select_init(t_nodes **nodes, t_env *all);
+void ft_reset_term(t_env *all);
+void ft_end(t_env *all);
 #endif
