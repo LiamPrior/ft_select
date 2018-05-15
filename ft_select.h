@@ -6,7 +6,7 @@
 /*   By: lprior <lprior@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 16:23:02 by lprior            #+#    #+#             */
-/*   Updated: 2018/05/13 20:35:34 by lprior           ###   ########.fr       */
+/*   Updated: 2018/05/14 19:53:07 by lprior           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define REV_VIDEO              "\033[7m"
 # define UNDERLINED             "\033[4m"
 # define DEFAULT               "\033[0m"
-# define ENTER_KEY                10
+# define ENTER_KEY              10
 # define ESC_KEY                27
 # define SPC_KEY                32
 # define STAR_KEY               42
@@ -60,13 +60,15 @@ typedef struct      s_nodes
 typedef struct  s_env
 {
     int i;
+    double w_win;
+    double h_win;
 
 }       t_env;
 
 t_nodes *ft_delete_node(t_nodes **nodes);
 void ft_circle_link(t_nodes **nodes);
 void ft_create_node(t_nodes **nodes, char *name);
-void ft_display_list(t_nodes **node);
+void ft_display_list(t_env *all, t_nodes **node);
 
 /*
 **ft_terminal.c
@@ -75,10 +77,12 @@ void ft_display_list(t_nodes **node);
 struct termios ft_term(struct termios term, struct termios normal);
 
 /*
-**ft_error.c
+**ft_tools.c
 */
 
 void ft_error(int i);
-int ft_key_check(long long *key, t_nodes ***nodes);
+int ft_key_check(long long *key, t_nodes **nodes, t_nodes **temp);
+void ft_find_select(t_nodes **nodes);
+int ft_window_size(t_env *all);
 
 #endif

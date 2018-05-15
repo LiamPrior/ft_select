@@ -6,7 +6,7 @@
 /*   By: lprior <lprior@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 16:30:21 by lprior            #+#    #+#             */
-/*   Updated: 2018/05/13 20:56:26 by lprior           ###   ########.fr       */
+/*   Updated: 2018/05/14 20:42:12 by lprior           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,27 @@ long long ft_get_chr(void)
 		return (buffer);
 }
 
-void ft_display_list(t_nodes **node)//okay so either its in delete node or its somthing with my display!
+void ft_display_list(t_env *all, t_nodes **node)//okay so either its in delete node or its somthing with my display!
 {
     t_nodes *temp;
     int c;
+    int w;
+    int h;
 
     c = 0;
+    h = -1;
+    w = -1;
     temp = *node;
+    ft_window_size(all);
     while (temp)
     {
+        if (h < all->h_win)
+            h++;
+        if (w < all->w_win && h >= all->h_win)
+        {
+            w++;
+            h = 0;
+        }
         ft_putstr(tgoto(tgetstr("cm", 0), 0, c++));
         // ft_printf("\n");
         if (temp->current)
@@ -52,32 +64,13 @@ int ft_select(t_env *all, t_nodes **nodes)
     temp = *nodes;
     ft_putstr_fd(tgetstr("cl", 0), 1);
     ft_putstr(tgoto(tgetstr("vi", 0), 0, 0));
-    ft_display_list(nodes);
+    ft_display_list(all, nodes);
 	while ((key = ft_get_chr()))
     {
         ft_putstr_fd(tgetstr("cl", 0), 1);
-        // if (!(ft_key_check(&key, &nodes)))
-        //     break ;
-        temp->current = false;
-        if (key == 27)
+        if (!(ft_key_check(&key, nodes, &temp)))
             break ;
-        // else if (key == ENTER_KEY)
-        //     find_selected();
-        else if (key == RIGHT_KEY || key == DOWN_KEY)//right key;
-            temp = temp->next;
-        else if (key == LEFT_KEY || key == UP_KEY)
-            temp = temp->prev;
-        else if (key == SPC_KEY)
-        {
-            temp->selected = temp->selected ? false : true;
-            temp = temp->next;
-        }
-        temp->current = true;
-        if (key == DEL_KEY)
-            temp = ft_delete_node(nodes);
-        if(!temp)
-            break;
-        ft_display_list(nodes);
+        ft_display_list(all, nodes);
     }
     return (0);
 }
@@ -101,9 +94,10 @@ int main(int argc, char **argv)
 	ft_circle_link(&nodes);
     normal = ft_term(term, normal);
 	ft_select(&all, &nodes);
+    // ft_find_select(&nodes);
     if (tcsetattr(0, TCSANOW, &normal) == -1)
 			ft_error(0);
-            // ft_putstr("notes.txt");
+    ft_find_select(&nodes);
 	return (0);
 }
         // while (nodes->part != 3)

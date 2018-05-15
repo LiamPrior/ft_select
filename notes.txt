@@ -42,6 +42,13 @@ description: ioctl;
            : An  ioctl request has encoded in it whether the argument is an ``in'' parameter or ``out'' parameter, and the size of the argument argp in bytes;
            : If an error has occurred, a value of -1 is returned and errno is set to indicate the error;
 
+struct winsize {
+	unsigned short	ws_row;		/* rows, in characters */
+	unsigned short	ws_col;		/* columns, in characters */
+	unsigned short	ws_xpixel;	/* horizontal size, pixels */
+	unsigned short	ws_ypixel;	/* vertical size, pixels */
+};
+
 ///////////getenv\\\\\\\\\\\
 #include <stdlib.h>
 
@@ -109,7 +116,7 @@ int tgetnum(char *id);
 char *tgetstr(char *id, char **area);
 char *tgoto(const char *cap, int col, int row);
 int tputs(const char *str, int affcnt, int (*putc)(int));
-
+.
 The tgetent routine loads the entry for name.  It returns 1 on success, 0 if there is no such entry, and -1 if the terminfo database could not be found. The emulation ignores the buffer pointer bp.
 
 The tgetflag routine gets the boolean entry for id, or zero if it is not available;
